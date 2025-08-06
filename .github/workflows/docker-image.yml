@@ -1,0 +1,18 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Build and tag Docker image
+      run: docker build -t 147.93.103.196:5001/appointment-service:latest -f Dockerfile .
+
+    - name: Push Docker image to local registry
+      run: docker push 147.93.103.196:5001/appointment-service:latest
