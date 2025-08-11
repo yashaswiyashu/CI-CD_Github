@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Build and tag Docker image
-      run: docker build -t 147.93.103.196:5001/appointment-service:latest -f Dockerfile .
+      run: docker build -t registry.rscsys.in/appointment-service:latest -f Dockerfile .
 
     - name: Push Docker image to local registry
-      run: docker push 147.93.103.196:5001/appointment-service:latest
+      run: docker push registry.rscsys.in/appointment-service:latest
