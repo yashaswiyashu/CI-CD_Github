@@ -8,11 +8,16 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Build and tag Docker image
-      run: docker build -t registry.rscsys.in/appointment-service:latest -f Dockerfile .
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Push Docker image to local registry
-      run: docker push registry.rscsys.in/appointment-service:latest
+      - name: Build & Push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: registry.rscsys.in/appointment-service:latest
+          # Older/vanilla registries can choke on these; disable:
+          provenance: false
+          sbom: false
