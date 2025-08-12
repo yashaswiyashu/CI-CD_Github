@@ -10,6 +10,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
+      - name: Get version from VERSION file
+        id: get-version
+        run: |
+          if [ -f VERSION ]; then
+            VERSION=$(cat VERSION)
+          else
+            echo "VERSION file not found. Exiting..."
+            exit 1
+          fi
+          echo "Current version: $VERSION"
+          echo ::set-output name=version::$VERSION
 
       - name: Build & Push
         uses: docker/build-push-action@v6
@@ -17,7 +29,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: registry.rscsys.in/appointment-service:latest
+          tags: registry.rscsys.in/appointment-service:${{ steps.get-version.outputs.version }}
           # Older/vanilla registries can choke on these; disable:
           provenance: false
           sbom: false
